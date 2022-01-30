@@ -5,12 +5,14 @@
   tasks:
   
   - name: update ubuntu
+    tags: always
     apt:
       update_cache: yes
       upgrade: dist
     when: ansible_distribution == "Ubuntu"
 
   - name: update centos
+    tags: always
     yum:
       name: "*"
       state: latest

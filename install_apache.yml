@@ -1,0 +1,26 @@
+---
+- name: install apache
+  hosts: all
+  become: true
+  tasks:
+  
+  - name: install apache on ubuntu
+    apt:
+      name: apache2
+      state: latest
+    when: ansible_distribution == "Ubuntu"
+
+  - name: install apache on centos
+    yum:
+      name: httpd
+      state: latest
+    when: ansible_distribution == "CentOS"
+    notify: enable_httpd
+
+  handlers:
+  - name: enable_httpd
+    service:
+      name: httpd
+      state: restarted
+      enabled: yes
+  
