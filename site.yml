@@ -33,3 +33,18 @@
       owner: root
       group: root
 
+  - name: change admin e-mail on centos
+    tags: admin, email
+    lineinfile:
+      path: /etc/httpd/conf/httpd.conf
+      regexp: '^ServerAdmin'
+      line: ServerAmind admin@gmail.com
+    when: ansible_distribution == "CentOS"    
+    register: email
+
+  - name: restart centos
+    tags: admin, email
+    service:
+      name: httpd
+      state: restarted
+    when: email.changed
